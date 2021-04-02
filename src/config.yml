@@ -1,0 +1,65 @@
+# if someone has this permission, they bypass everything; all limits
+BypassEverythingPermission: 'blocklimit.bypass'
+
+# how often to save everyone's configs (if they've made any changes that is; wont save if they haven't
+# placed/broken any limited blocks. this saves there being a small lag spike trying to save like 50 players
+# all at once if youve got 50 players playing)
+Save All Configs Interval: 200
+
+# these are all of the limited blocks. ID 27 (powered rails) is just an example, you can have as many limits as you want
+# for any block ID (stone, dirt, chests, hoppers, placing string, or even use this for completely banning a block)
+limits:
+  # the ID of the block that is limited. you can limit the metadata too, but you can't limit the same
+  # ID with different metadata, due to the way the plugin works (hashes and stuff to increase speed)
+  27:
+    # the metadata to limit. this should be between 0 and 255, unless theres some strange stuff going on
+    # -1 means metadata is just ignored. you dont have to supply the metadata, it's -1 by default
+    MetaData: -1
+
+    # if someone has this permission, they bypass the limit for this particular block (ID 27, aka rails)
+    # meaning they can place unlimited powered rails
+    BypassPermission: 'blocklimit.bypass.place.rails'
+
+    # the block limits themselves. it's parsed as a range between 2 numbers, so you need at least one of these
+    # to start at 0 and end at some number. this one below (0 to 20) means that players with the permission
+    # blocklimit.place.20 are only allowed to place 20 blocks of ID 27 (powered rails). if they dont have
+    # that permission, or they've already placed 20 blocks of ID 27, it stops them from placing them anymore.
+    # due to the way the plugin works, you also need a final range as an end cap (e.g. the 41 to 10000 one)
+    0 to 20:
+      # the permission that the player requires to place this many of the blocks (to place up to 20)
+      Permission: 'blocklimit.place.rails.20'
+      # the message to send them if they dont have permission to place between 0 and 20 stone.
+      # meaning, send this message to them if they dont have blocklimit.place.rails.20
+      # you can use colours with the & symbol, and wildcards using the % symbol
+      # %d for the block ID, %m for the block metadata, and %p for the player name
+      DenyMessage: '&4%p, You need to rankup to use 20 rails!'
+
+    # a second limit that allows the player to place up to 40 rails. the player MUST have
+    # permission for the above limit (0 to 20). if they dont, as soon as they break some rails
+    # and drop below 20 rails placed, they cant place anymore. basically, to place up to 40 rails,
+    # they need perms to break from 0 to 20, and 21 to 40. they cant just have perms for 21 to 40.
+    # but if you want to do some advanced stuff with ranges (e.g. if they break a certain
+    # amount of blocks they cant place anymore)... have fun lol
+    21 to 40:
+      Permission: 'blocklimit.place.40'
+      DenyMessage: '&4%p, You need to rankup to use 40 rails!'
+
+    # this one acts as an end cap. no one should have the permission below so no one can place more than 40
+    # the reason its 10000 is just in case they manage to place an extra one. but this should be impossible,
+    # unless the server crashes just as they place the limited block, not giving enough time for the config to save
+    # the config saves (by default) every 10 seconds (200 ticks) so the changes of this happening.... very low
+    41 to 10000:
+      Permission: 'noone.should.have.this'
+      DenyMessage: '&4You cannot place anymore rails!'
+  1:
+    # you need blocklimit.place.stone.5 to place stone; between 0 and 5 stone (including the 5th one)
+    0 to 5:
+      # this permission can be anything btw, doesn't even have to contain blocklimit, just seems more
+      # organised/readable/understandable if it does though ;)
+      Permission: 'blocklimit.place.stone.5'
+      # the message to send the player if they dont have blocklimit.place.stone.5
+      DenyMessage: '&3Get some permissions to place stone!'
+    # end cap. no one can place 6 stone, only up to 5. yes stone... just an example lol
+    6 to 100000:
+      Permission: 'blocklimit.impossiblepermission'
+      DenyMessage: '&3You cant place anymore stone!'

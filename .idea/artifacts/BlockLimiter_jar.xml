@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BlockLimiter:jar">
+    <output-path>$PROJECT_DIR$/../../MinecraftUtils/server/vanilla-1.6.4/plugins</output-path>
+    <root id="archive" name="BlockLimiter.jar">
+      <element id="module-output" name="BlockLimiter" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+    </root>
+  </artifact>
+</component>
